@@ -33,19 +33,19 @@
 	var ctx = canvas.getContext('2d');
 	var imageData = ctx.getImageData(0, 0, video.width, video.height);
 	video.addEventListener('loadedmetadata', function() {
-	  canvas.width = video.videoWidth;
-	  canvas.height = video.videoHeight;
+		canvas.width = video.width; //compared to video.videoWidth
+		canvas.height = video.height; //compared to video.videoHeight
 	});
 
 	video.addEventListener('play', function() {
-	  var $this = this; //cache
-	  (function loop() {
-		if (!$this.paused && !$this.ended) {
-		  ctx.drawImage($this, 0, 0);
-		  imageData = ctx.getImageData(0, 0, video.width, video.height);
-		  setTimeout(loop, 1000 / 30); // drawing at 30fps
-		}
-	  })();
+		var $this = this; //cache
+		(function loop() {
+			if (!$this.paused && !$this.ended) {
+				ctx.drawImage($this, 0, 0);
+				imageData = ctx.getImageData(0, 0, video.width, video.height);
+				setTimeout(loop, 1000 / 30); // drawing at 30fps
+			}
+		})();
 	}, 0);
 		
 	// URL to img base64 can be used to dl canvas img
@@ -112,7 +112,7 @@
 		FastTracker.base(this, 'constructor');
 	};
     tracking.inherits(FastTracker, tracking.Tracker);
-    tracking.Fast.THRESHOLD = 10;
+    tracking.Fast.THRESHOLD = 5;
     FastTracker.prototype.threshold = tracking.Fast.THRESHOLD;
 	FastTracker.prototype.track = function(pixels, width, height) {
 		var gray = tracking.Image.grayscale(pixels, width, height);
@@ -129,11 +129,10 @@
 		for (var i = 0; i < corners.length; i += 2) {
 			points.push([corners[i], corners[i + 1]]);
 		}
-		addBounds();
+		addBounds()
 		draw();
 	});
 	tracking.track('#video', tracker, { camera: true });
-	
 	
 </script>
 </html> 

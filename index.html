@@ -131,6 +131,7 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/2.0.0/trianglify.min.js"></script>
+	<script src="reimg.js"></script>
 	<script>
 	$(document).ready(function() {
 		var pattern = Trianglify({
@@ -164,7 +165,7 @@
 								<i class="fas fa-camera"></i>
 							</div>
 							<canvas id="can" width="400" height="300"></canvas>
-							<button type="button" class="btn btn-primary dl-button">Download</button>
+							<button type="button" id="dl" class="btn btn-primary dl-button">Download</button>
 						</div>
 					</div>
 				</div>
@@ -199,7 +200,6 @@
 		canvas.width = video.width; //compared to video.videoWidth
 		canvas.height = video.height; //compared to video.videoHeight
 	});
-
 	video.addEventListener('play', function() {
 		var $this = this; //cache
 		(function loop() {
@@ -210,12 +210,12 @@
 			}
 		})();
 	}, 0);
-		
+	
+	document.getElementById('dl').onclick = function() {
+		ReImg.fromCanvas(document.getElementById('can')).downloadPng()
+	};
 	// URL to img base64 can be used to dl canvas img
-	var dataURL = canvas.toDataURL("image/png");
-	function dlIMG() {
-		document.write('<img src="'+dataURL+'"/>');
-	}
+	
 	function addBounds() {
 		points.push([0, 0]); // left top
 		points.push([0, video.height / 2]); // left mid
